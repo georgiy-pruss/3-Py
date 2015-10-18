@@ -2,10 +2,6 @@
 Python programs
 
 <pre>
-aaaa              blah blah
-bbbbbbbbbbbbbb    xxx yyy blah blah
-</pre>
-
 chksum.py          — calculate a bunch of check sums for a file</dd>  
 convert-unicode.py — convert a file to/from unicode  
 d2u.py, u2d.py     — convert files between unix and dos endline agreement  
@@ -21,3 +17,4 @@ repl.py            — (mass-)replace substrings in files
 sync_time.pyw      — synchronize computer time  
 update.py          — update files (unix)  
 utils.py           — color output, format_int, etc (unix)  
+</pre>
