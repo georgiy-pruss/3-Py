@@ -27,6 +27,7 @@ DN_MIN = 587   # For unix time, may be used to check date (1970.1.1)
 DN_MAX = 25441 # For unix time, may be used to check date (2038.1.18)
 DN_INF = 32767 # Some big non-existing date, good for initialization of 'min()'
 DN_MOON = 29.53058867 # lunar synodic month
+SEC_IN_YEAR = 31556952 # seconds in one year or 365.2425 days
 
 M_DAYS = (0, 31,28, 31,30,31, 30,31,31, 30,31,30, 31)
 WD_NAME = ("Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun")
