@@ -14,6 +14,7 @@ dump.py            — dump file contents (unix)
 exifdata.py        — list main info about photos  
 group_by_date.py   — move files to date subdirectories  
 repl.py            — (mass-)replace substrings in files  
+svncolor.py        — colorize svn output  
 sync_time.pyw      — synchronize computer time  
 update.py          — update files (unix)  
 utils.py           — color output, format_int, etc (unix)  
