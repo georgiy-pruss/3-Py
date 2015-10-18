@@ -5,7 +5,7 @@ from utils import sc,wr,p
 
 short_colors = { 'M':"R", '?':"M", 'A':"G", 'X':"Y", 'C':"kR", '-':"R", 'D':"rW",  '+':"G" }
 long_colors = { "Property changes":"-", "____":"-", # skip line
-  "---":"R", "+++":"G", "@@":"C", "====":"W", "Index: ":"Y" }
+  "---":"R", "+++":"G", "@@":"C", "====":"Y", "Index: ":"Y" }
 
 def colorize(line):
   done = False
