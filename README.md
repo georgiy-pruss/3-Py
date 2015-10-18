@@ -1,6 +1,8 @@
 # Py
 Python programs
 
+name|description
+----|-----
 chksum.py          |— calculate a bunch of check sums for a file  
 convert-unicode.py |— convert a file to/from unicode  
 
