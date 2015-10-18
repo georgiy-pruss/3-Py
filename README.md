@@ -1,10 +1,10 @@
 # Py
 Python programs
 
-<table border=0>
-<tr border=0><td>aaaa</td><td>blah blah</td></tr>
-<tr color=red><td>bbbbbbbbbbbbbb</td><td>xxx yyy blah blah</td></tr>
-</table>
+<pre>
+aaaa              blah blah
+bbbbbbbbbbbbbb    xxx yyy blah blah
+</pre>
 
 chksum.py          — calculate a bunch of check sums for a file</dd>  
 convert-unicode.py — convert a file to/from unicode  
