@@ -2,6 +2,7 @@
 Python programs
 
 <pre>
+aes.py             — AES algorithm  
 chksum.py          — calculate a bunch of check sums for a file</dd>  
 convert-unicode.py — convert a file to/from unicode  
 d2u.py, u2d.py     — convert files between unix and dos endline agreement  
@@ -17,5 +18,5 @@ repl.py            — (mass-)replace substrings in files
 svncolor.py        — colorize svn output  
 sync_time.pyw      — synchronize computer time  
 update.py          — update files (unix)  
-utils.py           — color output, format_int, etc (unix)  
+utils.py           — color output, format_int, etc (unix/windows)  
 </pre>
