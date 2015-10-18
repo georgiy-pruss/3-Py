@@ -2,8 +2,8 @@
 Python programs
 
 <table border=0>
-<tr><td>aaaa</td><td>blah blah</td></tr>
-<tr><td>bbbbbbbbbbbbbb</td><td>xxx yyy blah blah</td></tr>
+<tr border=0><td>aaaa</td><td>blah blah</td></tr>
+<tr color=red><td>bbbbbbbbbbbbbb</td><td>xxx yyy blah blah</td></tr>
 </table>
 
 chksum.py          — calculate a bunch of check sums for a file</dd>  
