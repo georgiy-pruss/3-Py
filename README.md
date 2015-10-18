@@ -1,6 +1,11 @@
 # Py
 Python programs
 
+<table border=0>
+<tr><td>aaaa</td><td>blah blah</td></tr>
+<tr><td>bbbbbbbbbbbbbb</td><td>xxx yyy blah blah</td></tr>
+</table>
+
 chksum.py          — calculate a bunch of check sums for a file</dd>  
 convert-unicode.py — convert a file to/from unicode  
 d2u.py, u2d.py     — convert files between unix and dos endline agreement  
