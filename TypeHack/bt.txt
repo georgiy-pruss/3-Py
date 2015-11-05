@@ -1,0 +1,181 @@
+Base Type extensions                           20120425-051144
+
+list
+----
+abs            abs each item
+a(x)           append x as item
+fold(f[v])     fold (default with 0) = reduce
+j(s='')        join
+n              len
+i f s          convert each item to int/float/str
+
+tuple
+-----
+j fold n i f s same as for list
+
+dict
+----
+n              len
+k v            keys, values (iterators, use list or sorted)
+j(s=',',p=':') join 'k:v' items
+
+int
+---
+s              str
+x X            hex %x/%X (str)
+b              bin %b (str)
+i f            int float
+r              range (return iterator)
+rnd            --> float [0..1), n --> [0..n-1], n,m --> [n..m-1]
+deg            deg->rad (57.29577951308232 deg in 1 rad)
+abs            abs
+
+float
+-----
+s              str
+i f            int float
+deg            deg->rad
+abs            abs (also for INF and 0.0)
+
+bytes
+-----
+n              len
+xor(b)         xor with another byte string
+xx             each xx --> c
+x X            each c --> xx or XX, result is str
+s              convert to str (decode with utf-8)
+b              itself, just to allow x.b for both bytes and str
+
+str
+---
+n              len
+xx             each xx --> c, result is bytes
+b              convert to bytes (encode with utf-8)
+s(x)           startswith
+e(x)           endswith
+l u            lower/upper
+k p            split = break / strip
+c(x)           count
+r(*xy)         replace(x1,y1).replace(x2,y2)...
+f(x)           find str x
+m(x)           find match /x/ --> match object >>>>>> .s==.group(), .i==.start()
+mm(x)          find multi-match (all) /x/ --> array of strings
+sub(x,y)       sub /x/ to y; y can be string or function
+pad(n,c=' ')   pad (but no truncate)
+fix(n,c=' ')   pad and truncate if needed
+ints           parse for (signed) numbers and return int list
+
+match
+-----
+i s            position and substring found
+
+range, generator
+----------------
+l              convert to list
+
+object
+------
+isa(klass)     check if is instance of klass
+
+
+FILE (from str = file name)
+
+_dir           directory list
+_f _r _w _x    file is accessible/readable/writable/executalbe (_l _s _h _v)
+_d             name/path is directory
+_n             file size (len)
+_t             file modif.time (as UT)    (_c _a _i)
+_del()         delete file
+_lines         read lines (preserve '\n')
+_data[=x]      read data/write data (use b'strings'!)
+_rd([m,e])     read as text (mode m, encoding e)
+_wr(t[m,e])    write as text (mode m, encoding e)
+_o([m,e])      open file (with mode m and encoding e)
+_abspath       usually current dir + sep + file name     "/"._abspath --> "C:\\"
+_dn            dir component of file path       "F:"._abspath --> curr.dir on F:
+_bn            base component of file path   also ".."._abspath "../.."._abspath
+
+
+TIME (UT,JD,ZT,CT,TJD,SEC,YMD,HMS,DHMS,WDHMS,TZ,DST,WD,YD) see Times below
+
+list/tuple
+----------
+t           UT from ZT or CT, or current time if []
+c([tz[,d]]) ZT-->CT or change time zone in CT           |... - keep TZ,DST
+z([tz[,d]]) CT-->ZT or change time zone in ZT           |
+d           TJD from YMD, (y,m,0) is ok too
+yd          YD  from YMD, 1..366
+wd          WD  from YMD, 0 1 .. 6 (Sun Mon .. Sat)
+e           SEC from HMS or DHMS or WDHMS (or ZT[3:6])
+
+int/float
+---------
+t           JD --> UT (back from JD; rest ops are for UT)
+j           UT --> JD (UT=(JD-2440587.5)*86400)
+c([tz[,d]]) UT --> CT [TJD,SEC,TZ,DST] (current time, if w/o args or tz==...)
+z([tz[,d]]) UT --> ZT [y m d H M S tz dst]
+wd          TJD --> WD, 0 1 .. 6 (Sun Mon .. Sat)       | not for float
+yd          TJD --> YD, 1..366                          | not for float
+ymd         TJD --> (Y M D)                             | not for float
+[wd]hms     SEC --> (h m s) or (d h m s) or (w d h m s)
+
+str
+---
+t           'y m d H M[S tzo dst]' parse into UT (any separators)
+d           'y m d' parse into TJD
+ft([t])     format (current) time using given format AaBbDdEeHhMmnOoPpSsTtwYyZz
+            for empty string this format is used '$e, $d $o $Y $T $Z'
+            $A  full weekday name*  $a  abbreviated weekday name*
+            $B  full month name*    $b  abbreviated month name*
+            $E  full weekday name   $e  abbrev. weekday name (always English)
+            $O  full month name     $o  abbrev. month name (always English)
+            $D  short data format*  $d  day of the month 01..31
+            $H  hour 00..23         $h  01..12 (noon 12PM, midnight 12AM)
+            $M  minute 00..59       $m  month 01..12
+            $n  year day 1..366     $w  week day 0..6
+            $P  [DST]*              $p  AM/PM*
+            $S  second 00..61       $s  dollar sign '$'
+            $T  short time format*  $t  milliseconds (or 000 if not avail.)
+            $Y  year 0001..3000     $y  year (last digits) 00..99
+            $Z  time zone +HHMM     $z  time zone +HH:MM
+            Note: * - can be changed using date_data["x"], e.g. defaults are
+            "D":"$Y.$m.$d", "T":"$H:$M:$S", "p":("AM","PM"), "P":("","DST")
+            See also http://en.wikipedia.org/wiki/ISO_8601#Week_dates
+            and http://en.wikipedia.org/wiki/Seven-day_week#Week_numbering
+            Use other means for week numbers.
+
+FUNCTIONS
+
+pad(s,n[,c]) fit(s,n[,c]) sub(s,p1,t1[,p2,t2]...)
+hms(t) dhms(t) wdhms(t)
+
+
+Times                                  (at least years 1582..2500, really more)
+
+Absolute time (astronomical) {NUMBERs}
+  UT  t    unix time (i,f) seconds since 1970.1.1 0:00:00 UTC
+           current time returned as float
+  JD  j    julian day JD (f usually) days since noon UT Jan.1 4713 BCE (Julian)
+
+Time with time zones (geographical) {LISTs}
+  ZT  z    zoned time (l,t) vector Y M D HR MIN [SEC TZO DST]
+           tzo and dst can be hours, minutes, seconds; east '+', west '-'
+           returned with TZO & DST; z(...) fills in all fields
+           TZO can be 0..+-14 (hours) +-15..1400 (HHMM) 1800..50400 (secs)
+           DST can be 0 or 1 or 3600
+  CT  c    complex/combined time (t) vector TJD SEC [TZO DST]
+           CT.c(True) and ZT.z(True) normalize TZO and DST (--> seconds)
+
+Calendar time (abstract/naive) {NUMBER,TUPLE}
+  TJD d    truncated julian day number TJD (i,f) naive date
+  YMD ymd  vector of Y M D (i) naive date
+
+Duration time (unbound/relative) {NUMBER,TUPLE}
+  SEC e    seconds since midnight (usually i) 0..86400 or any if duration
+  HMS hms  vector of H M S (i) naive time; can be [W] D H M S
+
+String representation of zoned/complex or naive time {STRING}
+  STR s    string time -- string repr. of some of the above
+
+Current time {LIST/NUMBER}
+  EMP o    empty vector, empty string
