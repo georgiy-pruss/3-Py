@@ -1,0 +1,20 @@
+== Windows ==
+
+You need:
+- MSVC 12+ (I use MSVC 16)
+- Python 2.7
+
+Set %PYTHON_INCLUDE% variable at build/msvc/build.cmd and use this script to build typehack module.
+
+== Linux, Unix, Mac OS ==
+I haven't created build scripts for other OS's. You could write some and send me.
+== Windows ==
+
+You need:
+- MSVC 12+ (I use MSVC 16)
+- Python 2.7
+
+Set %PYTHON_INCLUDE% variable at build/msvc/build.cmd and use this script to build typehack module.
+
+== Linux, Unix, Mac OS ==
+I haven't created build scripts for other OS's. You could write some and send me.
