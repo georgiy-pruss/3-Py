@@ -2,9 +2,9 @@
 # http://forums.xkcd.com/viewtopic.php?t=110883
 # https://www.ietf.org/rfc/rfc3526.txt
 # https://repl.it/7sZ
-# see also DH_key_exchange.ijs, DH_key_exchange.py
+# see also DH_key_exchange.ijs
 
-s = """
+_s = """
   FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
   29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
   EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
@@ -49,24 +49,23 @@ s = """
   9558E447 5677E9AA 9E3050E2 765694DF C81F56E8 80B96E71
   60C980DD 98EDD3DF FFFFFFFF FFFFFFFF"""
 
-p = int( s.replace(" ", "").replace("\n", ""), 16 ) # 2467 decimal digits
+_p = int( _s.replace(" ", "").replace("\n", ""), 16 ) # 2467 decimal digits
 
-g = 2
+_g = 2
 
-def make_gx( x ): # x is secret; the result is not
-  return pow(g, x, p) # all g^x have 2466 decimal digits (here)
+def make_pub( a: int ): # a is secret; the result is not - it's public key
+  return pow( _g, a, _p ) # all g^a have 2466 decimal digits (here)
 
-def make_key( gy, x ): # gy is not secret, from party, x is secret, as the result
-  return pow(gy, x, p)
+def make_key( gb: int, a: int ): # gb is from 2nd party, a is secret
+  return pow( gb, a, _p ) # the result is the key for encryption
 
+def test( a = 123456789012345678903141592, b = 987654321098765432102718281 ):
+  # a and b are secret, p, g, ga, gb are public, gab/gba is secret again
+  ga = make_pub( a ); gab = make_key( ga, b )
+  gb = make_pub( b ); gba = make_key( gb, a )
+  assert gab == gba
+  # print that
+  def pp( m:str, n:int ): t = "%d" % n; print( m, t[:20]+'...'+t[-20:] )
+  pp('p\t',_p); pp('ga\t',ga); pp('gb\t',gb); pp('gab=gba\t',gab)
 
-if 0:
-  def pp( m:str, n:int ): # pretty-print
-    t = "%d" % n
-    print( m, t[:32]+'...'+t[-32:] )
-
-  pp('p  ',p)
-  pp('ga ',ga)
-  pp('gb ',gb)
-  pp('gab',gab)
-
+#test()
