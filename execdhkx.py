@@ -5,6 +5,19 @@
 
 import dhkx
 
+def set_mode():
+  def choose_len():
+    m = (1536, 2048, 3072, 4096, 6144, 8192)
+    t = "  1 - 1536, 2 - 2048, 3 - 3072, 4 - 4096, 5 - 6144, 6 - 8192 [default]"
+    while "mode entering":
+      print( "Choose modulo length:" )
+      print( t )
+      k = input( "Enter number: " )
+      if len(k)==0: return 8192
+      if k in ("1","2","3","4","5", "6"): return m[int(k)-1]
+      if k.isdigit() and int(k) in m: return int(k)
+  dhkx.set_modp( choose_len() )
+
 def enter_kind() -> int:
   txt = """Choose your key (password) type:
   1 - decimal digits (21+ digits recommended)
@@ -93,6 +106,7 @@ def md5( s: str ) -> str:
 
 def main():
   try:
+    set_mode()
     k = enter_kind()
     p = enter_pwd( k )
     n = cvt_pwd_to_n( k, p )
