@@ -3,21 +3,22 @@
 # exchange these derivatives, then you'll have your key for encryption
 # For more on DHKX, see dhkx.py
 
-import dhkx, hashlib
+import dhkx
 
-def enter_kind():
+def enter_kind() -> int:
   txt = """Choose your key (password) type:
   1 - decimal digits (21+ digits recommended)
   2 - hexadecimal (18+ hex.digits recommended)
   3 - alphanumeric case-insensitive (14)
-  4 - alphanumeric case-sensitive (12)
+  4 - alphanumeric case-sensitive (12) [default]
   5 - any printable ASCII (11)"""
   while "password kind entering":
     print( txt )
     k = input( "Enter number: " )
+    if len(k)==0: return 4 # default
     if k in ("1","2","3","4","5"): return int(k)
 
-def chk_kind( k, p ):
+def chk_kind( k: int, p: int ) -> bool:
   if k==1 and p.isdigit(): return True
   if k==2 and p.isalnum():
     for c in p:
@@ -27,7 +28,7 @@ def chk_kind( k, p ):
   if k==5: return True
   return False
 
-def enter_pwd( k ):
+def enter_pwd( k: int ) -> int:
   while "password entering":
     p = input( "Enter password: " )
     if len(p)>0 and not chk_kind( k, p ):
@@ -38,7 +39,7 @@ def enter_pwd( k ):
       continue
     return p
 
-def cvt_s36_to_n( p ): # 36 = 0..9 A..Z i.e. 10+26
+def parse_36( p: str ) -> int: # 36 = 0..9 A..Z i.e. 10+26
   n = 0
   for c in p.upper():
     if '0'<=c<='9': n=n*36+ord(c)-ord('0')
@@ -46,7 +47,7 @@ def cvt_s36_to_n( p ): # 36 = 0..9 A..Z i.e. 10+26
     else: pass # ignore other chars
   return n
 
-def cvt_s62_to_n( p ): # 52 = 0..9 A..Z a..z i.e. 10+26+26
+def parse_62( p: str ) -> int: # 52 = 0..9 A..Z a..z i.e. 10+26+26
   n = 0
   for c in p:
     if '0'<=c<='9': n=n*62+ord(c)-ord('0')
@@ -55,14 +56,14 @@ def cvt_s62_to_n( p ): # 52 = 0..9 A..Z a..z i.e. 10+26+26
     else: pass # ignore other chars
   return n
 
-def cvt_s95_to_n( p ): # 95 = spc (32) incl till del (127) excl
+def parse_95( p: str ) -> int: # 95 = spc (32) incl till del (127) excl
   n = 0
   for c in p:
     assert 32<=ord(c)<=126
     n=n*95+ord(c)-32 # ord(' ')
   return n
 
-def cvt_n_to_s62( n ):
+def format_62( n: int ) -> str:
   s = ''
   while n!=0:
     d = n%62
@@ -72,43 +73,46 @@ def cvt_n_to_s62( n ):
     n = n//62
   return s
 
-def cvt_pwd_to_n( k, p ):
+def cvt_pwd_to_n( k: int, p: str ) -> int:
   if k==1: return int(p)
   if k==2: return int(p,16)
-  if k==3: return cvt_s36_to_n(p)
-  if k==4: return cvt_s62_to_n(p)
-  if k==5: return cvt_s95_to_n(p)
+  if k==3: return parse_36(p)
+  if k==4: return parse_62(p)
+  if k==5: return parse_95(p)
   assert False
 
-def parse( s ):
-  return cvt_s62_to_n( s.replace(" ", "").replace("\n", "") )
-  # it was either integer or 62-based
-  #for c in 'abcdefghijklmnopqrstuvwxyz':
-  #  if c in s or c.upper() in s:
-  #    return cvt_62( s )
-  #return int(s) # it's a number
+def clean( s: str ) -> str:
+  return s.replace(" ", "").replace("\n", "")
+
+import hashlib # not really needed, just for info/double-check
+
+def md5( s: str ) -> str:
+  h = hashlib.md5()
+  h.update( s.encode('ascii') )
+  return h.hexdigest()
 
 def main():
   try:
     k = enter_kind()
     p = enter_pwd( k )
-    n = cvt_pwd_to_n(k,p)
-    g = dhkx.make_gx( n )
+    n = cvt_pwd_to_n( k, p )
+    u = dhkx.make_pub( n )
+    g = format_62( u )
     print()
-    print( 'Your number G (not secret):', cvt_n_to_s62(g) )
-    print( 'Now send this G to your party' )
+    print( 'Your public key:', g )
+    print( 'Its MD5:', md5( g ) )
+    print( 'Now send this key to your party.' )
     print()
-    print( 'And receive another G from your party' )
-    f = input( 'Enter it here: ' )
-    b = parse( f )
+    print( 'And receive a public key from your party.' )
+    f = clean( input( 'Enter it here: ' ) )
+    print( 'Its MD5:', md5( f ) )
+    b = parse_62( f )
     c = dhkx.make_key( b, n )
-    z = cvt_n_to_s62( c )
+    z = format_62( c )
     print()
     print( 'Your common secret password:', z )
-    h = hashlib.md5()
-    h.update( z.encode('ascii') )
-    print( 'Its MD5:', h.hexdigest() )
+    print( 'Its MD5:', md5( z ) )
   except EOFError:
-    pass
+    pass # hide all output when exiting on ^C
 
 main()
