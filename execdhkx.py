@@ -5,15 +5,13 @@
 
 import dhkx, hashlib
 
-PW_MIN_LEN = (21,18,14,12,11)
-
 def enter_kind():
   txt = """Choose your key (password) type:
-  1 - decimal digits (%d digits recommended)
-  2 - hexadecimal (minimum %d digits)
-  3 - alphanumeric case-insensitive (%d)
-  4 - alphanumeric case-sensitive (%d)
-  5 - any printable ASCII (%d, not enforced)""" % PW_MIN_LEN
+  1 - decimal digits (21+ digits recommended)
+  2 - hexadecimal (18+ hex.digits recommended)
+  3 - alphanumeric case-insensitive (14)
+  4 - alphanumeric case-sensitive (12)
+  5 - any printable ASCII (11)"""
   while "password kind entering":
     print( txt )
     k = input( "Enter number: " )
@@ -30,14 +28,12 @@ def chk_kind( k, p ):
   return False
 
 def enter_pwd( k ):
-  l = PW_MIN_LEN[k-1]
-  if k==5: l=1 # ok, we'll accept short passwords for the 5th kind
   while "password entering":
     p = input( "Enter password: " )
     if len(p)>0 and not chk_kind( k, p ):
       print( "Bad character" )
       continue
-    if len(p)<l:
+    if len(p)<3: # well, maybe not needed, maybe confirmation...
       print( "Too short" )
       continue
     return p
@@ -116,4 +112,3 @@ def main():
     pass
 
 main()
-
