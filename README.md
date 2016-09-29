@@ -2,8 +2,7 @@
 Python programs
 
 <pre>
-aes.py             — AES algorithm  
-chksum.py          — calculate a bunch of check sums for a file</dd>  
+chksum.py          — calculate a bunch of check sums for a file  
 console_output.py  — utf8 and colorful output (TODO: merge with utils.py)
 convert-unicode.py — convert a file to/from unicode  
 d2u.py, u2d.py     — convert files between unix and dos endline agreement  
