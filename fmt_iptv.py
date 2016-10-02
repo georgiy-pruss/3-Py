@@ -20,13 +20,13 @@ try:
           _,e = fnd( l,"tvg-logo=\"","\"",e ); t = l[e:]
         while t.startswith(" ") or t.startswith(",") or t.startswith("."):
           t = t[1:] # skip leading space, comma, dot
-        t = c + " | " + t # for output, and for saving for later output
-        asx.write( "<entry><title>"+t+"</title>" )
-        lst.write( t+"\n" )
+        o = c + " | " + t # for output, and for saving for later output
+        asx.write( "<entry><title>"+o+"</title>" )
+        lst.write( o+"\n" )
       elif l.startswith("http"): # and ignore all other lines btw
         asx.write( "<ref href=\"" + l + "\"/>\n" )
         n += 1
-        dpl.write( "%d*file*%s\n%d*title*%s\n%d*played*0\n" % (n,l,n,t,n) )
+        dpl.write( "%d*file*%s\n%d*title*%s\n%d*played*0\n" % (n,l,n,o,n) )
   asx.close(); dpl.close(); lst.close()
 except Exception as e:
   print( e ) # just short report
