@@ -1,10 +1,10 @@
 <pre>
-<n    range(n)      maybe ..n
-<=n   range(n+1)          ...n
+&lt;n    range(n)      maybe ..n
+&lt;=n   range(n+1)          ...n
 
 #hhh  hex.number          b#xxx   base b number
 #'hh' hex.string, bytes
-#<...> #(...) #[...] #{...} comment
+#&lt;...> #(...) #[...] #{...} comment
 #!... # ...     usual Python comment
 
 binops              unops
