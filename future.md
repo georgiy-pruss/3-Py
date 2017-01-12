@@ -22,6 +22,9 @@ $$ ends with
                     $a   len(a)
 \  join a\s         \a   a\''
 \\ split
+                    ?n   random int 0..n-1
+                    ?1   random float 0..1
+                    !x   not x (but: !x in y ≡ not x in y)
 
 x?y!z      if x: y, else: z
 
@@ -38,7 +41,7 @@ while expr as var: ...
 str(args)  str%(args)
 str n      str%n
 
-/\ x, y: expr    lambda
+(x, y): expr    lambda x,y: expr
 
 =expr      return expr
 
@@ -47,6 +50,10 @@ cities =:
     "Chișineu"
     "București"
     # dicts?
+
+reduce:
+#(fn(x,y) for y in iter [if ...], from x0])
+#(x+y*y for y in array, 0)
 
 #def macro(x,y): ....
 #def macro [...]
